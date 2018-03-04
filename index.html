@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ <meta name="viewport" content="width=device-width,user-scalable=no"/>
+ <title></title>
+</head>
+<body>
+
+<script type="text/javascript" src="pointjs_0.2.0.0.js"></script>
+
+<script type="text/javascript">
+var pjs = new PointJS(500, 400, {backgroundColor: '#999999'})	
+
+var game = pjs.game; 
+var key = pjs.keyControl;
+key.initControl();
+var p = pjs.vector.point;
+
+var rect = game.newRectObject({ 
+     x : 100, 
+     y : 100, 
+     w : 100, 
+     h : 50, 
+     fillColor : 'yellow', 
+     strokeColor: 'red',
+     strokeWidth: 6
+   });
+
+
+game.newLoop('myGame', function () {
+	if(key.isDown('RIGHT') || key.isDown('D')) {
+		rect.move(p(1, 0) );
+	}
+	if(key.isDown('LEFT') || key.isDown('A')) {
+		rect.move(p(-1, 0));
+	}
+	if(key.isDown('UP') || key.isDown('W')) {
+		rect.move(p(0, -1));
+	}
+	if(key.isDown('DOWN') || key.isDown('S')) {
+		rect.move(p(0, 1));
+	}
+	if(key.isDown('DOWN') || key.isDown('S')) {
+		rect.move(p(0, 1));
+	}
+
+
+	rect.turn(-1);
+	rect.draw();
+})
+
+game.setLoop('myGame');
+game.start();
+
+
+
+
+
+</script>
+
+
+</body>
+</html>
