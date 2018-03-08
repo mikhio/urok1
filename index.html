@@ -10,55 +10,56 @@
 <script type="text/javascript" src="pointjs_0.2.0.0.js"></script>
 
 <script type="text/javascript">
-var pjs = new PointJS(500, 400, {backgroundColor: '#999999'})	
 
-var game = pjs.game; 
-var key = pjs.keyControl;
-key.initControl();
+var pjs = new PointJS(630, 300, {backgroundColor: '#999999'})
+var game = pjs.game;
+var key = pjs. keyControl
+key.initKeyControl();
 var p = pjs.vector.point;
+b="";
 
-var rect = game.newRectObject({ 
+var c = game.newCircleObject(   { 
      x : 100, 
      y : 100, 
-     w : 100, 
-     h : 50, 
-     fillColor : 'yellow', 
-     strokeColor: 'red',
-     strokeWidth: 6
+     radius : 30, 
+     fillColor : "#FBFE6F", 
+     strokeColor : "#DA4848", 
+     strokeWidth : 2  
    });
 
-
 game.newLoop('myGame', function () {
-	if(key.isDown('RIGHT') || key.isDown('D')) {
-		rect.move(p(1, 0) );
+	if(key.isDown('D') || key.isDown('RIGHT')) {
+		c.move(p(3, 0) );
+		b="D"
 	}
-	if(key.isDown('LEFT') || key.isDown('A')) {
-		rect.move(p(-1, 0));
+	if(key.isDown('A') || key.isDown('LEFT')) {
+		c.move(p(-3, 0) );
+		b="A"
 	}
-	if(key.isDown('UP') || key.isDown('W')) {
-		rect.move(p(0, -1));
+	if(key.isDown('S') || key.isDown('DOWN')) {
+		c.move(p(0, 3) );
+		b="S"
 	}
-	if(key.isDown('DOWN') || key.isDown('S')) {
-		rect.move(p(0, 1));
-	}
-	if(key.isDown('DOWN') || key.isDown('S')) {
-		rect.move(p(0, 1));
+	if(key.isDown('W') || key.isDown('UP')) {
+		c.move(p(0, -3) );
+		b="W"
 	}
 
 
-	rect.turn(-1);
-	rect.draw();
-})
+c.draw();
+
+pjs.brush.drawText({
+  text : b, 
+  x : 20, y : 20, 
+  color : "black",
+  size: 30
+});
+}) // закончился ировой цикл myGame
 
 game.setLoop('myGame');
 game.start();
 
-
-
-
-
 </script>
-
 
 </body>
 </html>
