@@ -13,9 +13,9 @@
 
 var pjs = new PointJS(630, 300, {backgroundColor: '#999999'})
 var game = pjs.game;
-var key = pjs. keyControl
+var key = pjs.keyControl;
 key.initKeyControl();
-var p = pjs.vector.point;
+var point = pjs.vector.point;
 b="";
 
 var c = game.newCircleObject(   { 
@@ -24,35 +24,55 @@ var c = game.newCircleObject(   {
      radius : 30, 
      fillColor : "#FBFE6F", 
      strokeColor : "#DA4848", 
-     strokeWidth : 2  
+     strokeWidth : 2,  
    });
 
 game.newLoop('myGame', function () {
-	if(key.isDown('D') || key.isDown('RIGHT')) {
-		c.move(p(3, 0) );
-		b="D"
-	}
-	if(key.isDown('A') || key.isDown('LEFT')) {
-		c.move(p(-3, 0) );
-		b="A"
-	}
-	if(key.isDown('S') || key.isDown('DOWN')) {
-		c.move(p(0, 3) );
-		b="S"
-	}
-	if(key.isDown('W') || key.isDown('UP')) {
-		c.move(p(0, -3) );
-		b="W"
-	}
+
+
+function h (key1, name, x, y) {
+	 if (key.isDown(key1) ){
+ 	name.move(point(x, y) );
+ 	b="key pressed: " + key1
+ }
+}
+
+h('D', c, 3, 0);
+h('A', c, -3, 0);
+h('S', c, 0, 3);
+h('W', c, 0, -3);
+h('RIGHT', c, 3, 0);
+h('LEFT', c, -3, 0);
+h('DOWN', c, 0, 3);
+h('UP', c, 0, -3);
+
+/*
+ if (key.isDown('D') || key.isDown('RIGHT') ){
+ 	c.move(point(3, 0) );
+ 	b="D"
+ }
+  if (key.isDown('A') || key.isDown('LEFT') ){
+ 	c.move(point(-3, 0) );
+ 	b="A"
+ }
+  if (key.isDown('S') || key.isDown('DOWN') ){
+ 	c.move(point(0, 3) );
+ 	b="S"
+ }
+  if (key.isDown('W') || key.isDown('UP') ){
+ 	c.move(point(0, -3) );
+ 	b="W"
+ }
+ */
 
 
 c.draw();
 
 pjs.brush.drawText({
-  text : b, 
+  text : key.getCountKeysDown() > 0 ? b : b="", 
   x : 20, y : 20, 
   color : "black",
-  size: 30
+  size : 30 
 });
 }) // закончился ировой цикл myGame
 
