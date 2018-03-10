@@ -7,66 +7,123 @@
 </head>
 <body>
 
-<script type="text/javascript" src="pointjs_0.2.0.0.js"></script>
+<script type="text/javascript" src="pointjs_0.2.0.3.js"></script>
 
 <script type="text/javascript">
 
-var pjs = new PointJS(630, 300, {backgroundColor: '#999999'})
+var pjs = new PointJS(1000, 700, {backgroundColor: '#999999'})
 var game = pjs.game;
 var key = pjs.keyControl;
 key.initKeyControl();
 var point = pjs.vector.point;
 b="";
 
-var c = game.newCircleObject(   { 
-     x : 100, 
-     y : 100, 
-     radius : 30, 
-     fillColor : "#FBFE6F", 
-     strokeColor : "#DA4848", 
-     strokeWidth : 2,  
+var rect = game.newRectObject(   { 
+     x : 420, 
+     y : 120, 
+     w : 100, 
+     h : 100, 
+     fillColor : "green", 
    });
 
+var rect1 = game.newRectObject(   { 
+     x : 120, 
+     y : 30, 
+     w : 1, 
+     h : 540, 
+     fillColor : "yellow"
+   });
+var rect2 = game.newRectObject(   { 
+     x : 120, 
+     y : 30, 
+     w : 850, 
+     h : 1, 
+     fillColor : "yellow"
+   });
+var rect3 = game.newRectObject(   { 
+     x : 120, 
+     y : 360, 
+     w : 880, 
+     h : 1, 
+     fillColor : "yellow"
+   });
+var rect4 = game.newRectObject(   { 
+     x : 700, 
+     y : 30, 
+     w : 1, 
+     h : 540, 
+     fillColor : "yellow"
+   });
+ var r = [rect1, rect2, rect3, rect4] 
 game.newLoop('myGame', function () {
 
+var dx = 0;
+var dy = 0;
+var speed = 10;
 
 function h (key1, name, x, y) {
-	 if (key.isDown(key1) ){
- 	name.move(point(x, y) );
- 	b="key pressed: " + key1
- }
+	if (key.isDown(key1)) {
+		dx = x;
+		dy = y;
+ 		// name.move(point(x, y));
+ 		b = 'key pressed: ' + key1;
+ 	}
 }
 
-h('D', c, 3, 0);
-h('A', c, -3, 0);
-h('S', c, 0, 3);
-h('W', c, 0, -3);
-h('RIGHT', c, 3, 0);
-h('LEFT', c, -3, 0);
-h('DOWN', c, 0, 3);
-h('UP', c, 0, -3);
+h('D', rect, speed, 0);
+h('A', rect, -speed, 0);
+h('S', rect, 0, speed);
+h('W', rect, 0, -speed);
+h('RIGHT', rect, speed, 0);
+h('LEFT', rect, -speed, 0);
+h('DOWN', rect, 0, speed);
+h('UP', rect, 0, -speed);
 
-/*
- if (key.isDown('D') || key.isDown('RIGHT') ){
- 	c.move(point(3, 0) );
- 	b="D"
- }
-  if (key.isDown('A') || key.isDown('LEFT') ){
- 	c.move(point(-3, 0) );
- 	b="A"
- }
-  if (key.isDown('S') || key.isDown('DOWN') ){
- 	c.move(point(0, 3) );
- 	b="S"
- }
-  if (key.isDown('W') || key.isDown('UP') ){
- 	c.move(point(0, -3) );
- 	b="W"
- }
- */
+if (key.isDown('R')) rect.turn(1)
 
 
-c.draw();
+
+
+var COLLISION = function() {
+
+
+	for(var i in r){
+		if (r[i].isStaticIntersect( rect.getStaticBoxA(-speed, 0, speed))){
+			if (dx === -speed){
+				dx = 0;
+				rect.setPosition(point(r[i].x + r[i].w, rect.y))
+			}
+		}
+		if (r[i].isStaticIntersect( rect.getStaticBoxD(0, 0, speed))){
+			if (dx === speed){
+				dx = 0;
+				rect.setPosition(point(r[i].x - rect.w, rect.y))
+			}
+		}
+		if (r[i].isStaticIntersect( rect.getStaticBoxW(0, -speed, 0, speed))){
+			if (dy === -speed){
+				dy = 0;
+				rect.setPosition(point(rect.x, r[i].y + r[i].h))
+			}
+		}
+		if (r[i].isStaticIntersect( rect.getStaticBoxS(0, 0, 0, speed))){
+			if (dy === speed){
+				dy = 0;
+				rect.setPosition(point(rect.x, r[i].y - rect.h))
+			}
+		}
+	}
+
+}
+COLLISION();
+rect.move(point(dx, dy));
+
+
+rect1.draw();
+rect2.draw();
+rect3.draw();
+rect4.draw();
+rect.draw();
 
 pjs.brush.drawText({
   text : key.getCountKeysDown() > 0 ? b : b="", 
@@ -74,7 +131,15 @@ pjs.brush.drawText({
   color : "black",
   size : 30 
 });
+
+
+
+//rect.drawStaticBoxA(-20, 0, 20);
 }) // закончился ировой цикл myGame
+
+
+
+
 
 game.setLoop('myGame');
 game.start();
