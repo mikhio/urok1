@@ -1,150 +1,44 @@
 <!DOCTYPE html>
 <html>
-<head>
- <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
- <meta name="viewport" content="width=device-width,user-scalable=no"/>
- <title></title>
-</head>
-<body>
+	<head>
+ 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ 		<meta name="viewport" content="width=device-width,user-scalable=no"/>
+ 		<title></title>
+	</head>
+	<body>
 
-<script type="text/javascript" src="pointjs_0.2.0.3.js"></script>
+		<script type="text/javascript" src="pointjs_0.2.0.3.js"></script>
 
-<script type="text/javascript">
+		<script type="text/javascript">
 
-var pjs = new PointJS(1000, 700, {backgroundColor: '#999999'})
-var game = pjs.game;
-var key = pjs.keyControl;
-key.initKeyControl();
-var point = pjs.vector.point;
-b="";
+			var pjs = new PointJS(1100, 620, {backgroundColor: '#999999'})
+			var game = pjs.game;
+			var mouse = pjs.mouseControl;
+			mouse.initControl();
 
-var rect = game.newRectObject(   { 
-     x : 420, 
-     y : 120, 
-     w : 100, 
-     h : 100, 
-     fillColor : "green", 
-   });
 
-var rect1 = game.newRectObject(   { 
-     x : 120, 
-     y : 30, 
-     w : 1, 
-     h : 540, 
-     fillColor : "yellow"
-   });
-var rect2 = game.newRectObject(   { 
-     x : 120, 
-     y : 30, 
-     w : 850, 
-     h : 1, 
-     fillColor : "yellow"
-   });
-var rect3 = game.newRectObject(   { 
-     x : 120, 
-     y : 360, 
-     w : 880, 
-     h : 1, 
-     fillColor : "yellow"
-   });
-var rect4 = game.newRectObject(   { 
-     x : 700, 
-     y : 30, 
-     w : 1, 
-     h : 540, 
-     fillColor : "yellow"
-   });
- var r = [rect1, rect2, rect3, rect4] 
-game.newLoop('myGame', function () {
+			var player = game.newRectObject(   { 
+     			x :200, 
+     			y :150, 
+     			w : 70, 
+     			h : 70, 
+     			fillColor : "green"
+   			});
 
-var dx = 0;
-var dy = 0;
-var speed = 10;
-
-function h (key1, name, x, y) {
-	if (key.isDown(key1)) {
-		dx = x;
-		dy = y;
- 		// name.move(point(x, y));
- 		b = 'key pressed: ' + key1;
- 	}
-}
-
-h('D', rect, speed, 0);
-h('A', rect, -speed, 0);
-h('S', rect, 0, speed);
-h('W', rect, 0, -speed);
-h('RIGHT', rect, speed, 0);
-h('LEFT', rect, -speed, 0);
-h('DOWN', rect, 0, speed);
-h('UP', rect, 0, -speed);
-
-if (key.isDown('R')) rect.turn(1)
+			game.newLoop('myGame', function () {
+				player.moveTo(mouse.getPosition(), 4);
+				//console.log(mouse.getPosition())
 
 
 
+				player.draw();
 
-var COLLISION = function() {
+			}) // закончился ировой цикл myGame
 
+			game.setLoop('myGame');
+			game.start();
 
-	for(var i in r){
-		if (r[i].isStaticIntersect( rect.getStaticBoxA(-speed, 0, speed))){
-			if (dx === -speed){
-				dx = 0;
-				rect.setPosition(point(r[i].x + r[i].w, rect.y))
-			}
-		}
-		if (r[i].isStaticIntersect( rect.getStaticBoxD(0, 0, speed))){
-			if (dx === speed){
-				dx = 0;
-				rect.setPosition(point(r[i].x - rect.w, rect.y))
-			}
-		}
-		if (r[i].isStaticIntersect( rect.getStaticBoxW(0, -speed, 0, speed))){
-			if (dy === -speed){
-				dy = 0;
-				rect.setPosition(point(rect.x, r[i].y + r[i].h))
-			}
-		}
-		if (r[i].isStaticIntersect( rect.getStaticBoxS(0, 0, 0, speed))){
-			if (dy === speed){
-				dy = 0;
-				rect.setPosition(point(rect.x, r[i].y - rect.h))
-			}
-		}
-	}
+		</script>
 
-}
-COLLISION();
-rect.move(point(dx, dy));
-
-
-rect1.draw();
-rect2.draw();
-rect3.draw();
-rect4.draw();
-rect.draw();
-
-pjs.brush.drawText({
-  text : key.getCountKeysDown() > 0 ? b : b="", 
-  x : 20, y : 20, 
-  color : "black",
-  size : 30 
-});
-
-
-
-//rect.drawStaticBoxA(-20, 0, 20);
-}) // закончился ировой цикл myGame
-
-
-
-
-
-game.setLoop('myGame');
-game.start();
-
-</script>
-
-</body>
+	</body>
 </html>
