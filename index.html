@@ -26,11 +26,17 @@
    			});
 
 			game.newLoop('myGame', function () {
-				player.moveTo(mouse.getPosition(), 4);
-				//console.log(mouse.getPosition())
+				// way 1
+				//if (player.getDistance(mouse.getPosition()) > 3){ 
+				//	player.moveToC(mouse.getPosition(), 4);
+				//}
+				if (player.getDistance(mouse.getPosition()) > 15){ 
+					player.moveToC(mouse.getPosition(), 4);
+					player.rotate(mouse.getPosition());
+				}
 
 
-
+				//console.log(mouse.getPosition())       
 				player.draw();
 
 			}) // закончился ировой цикл myGame
