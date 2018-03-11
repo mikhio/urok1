@@ -25,22 +25,31 @@
      			fillColor : "green"
    			});
 
+   			var pos = player.getPositionC();
+
 			game.newLoop('myGame', function () {
 				// way 1
 				//if (player.getDistance(mouse.getPosition()) > 3){ 
 				//	player.moveToC(mouse.getPosition(), 4);
 				//}
+
 				//way 2
 				//if (player.getDistance(mouse.getPosition()) > 15){ 
 				//	player.moveToC(mouse.getPosition(), 4);
 				//	player.rotate(mouse.getPosition());
 				//}
+
+				//way 3
+				//if (mouse.isPress('LEFT')) {
+				//	player.setPositionC(mouse.getPosition());
+				//}
 				if (mouse.isPress('LEFT')) {
-					player.setPositionC(mouse.getPosition());
+					pos = mouse.getPosition();
 				}
-
-
-
+				if (player.getDistance(pos) > 3){ 
+					player.moveToC(pos, 4);
+					player.rotate(pos);
+				}
 
 				//console.log(mouse.getPosition())       
 				player.draw();
