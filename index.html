@@ -30,10 +30,16 @@
 				//if (player.getDistance(mouse.getPosition()) > 3){ 
 				//	player.moveToC(mouse.getPosition(), 4);
 				//}
-				if (player.getDistance(mouse.getPosition()) > 15){ 
-					player.moveToC(mouse.getPosition(), 4);
-					player.rotate(mouse.getPosition());
+				//way 2
+				//if (player.getDistance(mouse.getPosition()) > 15){ 
+				//	player.moveToC(mouse.getPosition(), 4);
+				//	player.rotate(mouse.getPosition());
+				//}
+				if (mouse.isPress('LEFT')) {
+					player.setPositionC(mouse.getPosition());
 				}
+
+
 
 
 				//console.log(mouse.getPosition())       
